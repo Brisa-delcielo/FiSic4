@@ -1,0 +1,204 @@
+:root {
+    --bg-main: #050505;
+    --card-bg: #0a0a0a;
+    --border-color: #222222;
+    --border-hover: #444444;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --font-tech: 'Orbitron', monospace;
+    --font-clean: 'Rajdhani', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-clean);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header Monocromático */
+.hud-header {
+    width: 90%;
+    max-width: 1000px;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2.5rem;
+}
+
+.logo .glitch-text {
+    font-family: var(--font-tech);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--text-primary);
+}
+
+.system-status {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: var(--text-primary);
+    border-radius: 50%;
+}
+
+/* Container Principal */
+.hud-container {
+    width: 90%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 800px) {
+    .hud-container { grid-template-columns: 1fr; }
+}
+
+/* Tarjetas Limpias */
+.hud-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 4px;
+}
+
+.panel-header h2 {
+    font-family: var(--font-tech);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+}
+
+/* Canvas de Simulación */
+.canvas-wrapper {
+    display: flex;
+    justify-content: center;
+    background: #000000;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Métricas Minimalistas */
+.hud-metrics {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.metric .label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 1.5px;
+    margin-bottom: 0.3rem;
+}
+
+.metric .value {
+    font-family: var(--font-tech);
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+/* Inputs en Fondo Negro */
+.hud-input-group {
+    margin-bottom: 1.2rem;
+}
+
+.hud-input-group label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.hud-input-group input {
+    width: 100%;
+    padding: 0.8rem;
+    background: #000000;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: var(--font-tech);
+    font-size: 0.95rem;
+    outline: none;
+    border-radius: 2px;
+    transition: border-color 0.2s ease;
+}
+
+.hud-input-group input:focus {
+    border-color: var(--border-hover);
+}
+
+/* Botón Minimalista */
+.hud-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--text-primary);
+    border: 1px solid var(--text-primary);
+    color: var(--bg-main);
+    font-family: var(--font-tech);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+}
+
+.hud-btn:hover {
+    background: #e0e0e0;
+    border-color: #e0e0e0;
+}
+
+/* Resultados */
+.hud-results {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.result-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.res-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+.res-value {
+    font-family: var(--font-tech);
+    font-size: 1rem;
+    color: var(--text-primary);
+}

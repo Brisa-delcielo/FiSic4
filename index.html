@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX CYBER-ENGINE // HUD V1.0</title>
+    
+    <!-- FAVICON SVG MINIMALISTA -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><rect x='7' y='3' width='10' height='7' rx='1'/><line x1='7' y1='6' x2='17' y2='6' stroke-width='1' stroke='%23888888'/><line x1='12' y1='10' x2='12' y2='17'/><circle cx='12' cy='18.5' r='1.5' fill='%23ffffff'/></svg>">
+
+    <!-- FUENTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- ESTILOS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="hud-header">
+        <div class="logo">
+            <!-- LOGO MINIMALISTA SVG -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="7" y="3" width="10" height="7" rx="1" />
+                <line x1="7" y1="6" x2="17" y2="6" stroke-width="1" stroke="#888888" />
+                <line x1="12" y1="10" x2="12" y2="17" />
+                <circle cx="12" cy="18.5" r="1.5" fill="#ffffff" />
+            </svg>
+        </div>
+        <div class="system-status">
+            <span class="dot"></span> ONLINE // 60 FPS
+        </div>
+    </header>
+
+    <main class="hud-container">
+        
+        <!-- PANEL IZQUIERDO: SIMULACIÓN -->
+        <section class="hud-panel simulation-panel">
+            <div class="panel-header">
+                <h2>[01] SIMULADOR DE COMBUSTIÓN</h2>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="engineCanvas" width="300" height="380"></canvas>
+            </div>
+            <div class="hud-metrics">
+                <div class="metric">
+                    <span class="label">VELOCIDAD ANGULAR</span>
+                    <span id="rpmDisplay" class="value">0000 <small>RPM</small></span>
+                </div>
+                <div class="metric">
+                    <span class="label">ESTADO DE IGNICIÓN</span>
+                    <span id="statusDisplay" class="value">STANDBY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL DERECHO: CONTROLES -->
+        <section class="hud-panel control-panel">
+            <div class="panel-header">
+                <h2>[02] PARÁMETROS DE RENDIMIENTO</h2>
+            </div>
+            
+            <form id="engineControls" onsubmit="event.preventDefault();">
+                <div class="hud-input-group">
+                    <label for="potencia">POTENCIA DEL MOTOR (HP)</label>
+                    <input type="number" id="potencia" value="350" min="50" max="1500">
+                </div>
+
+                <div class="hud-input-group">
+                    <label for="peso">MASA VEHICULAR (KG)</label>
+                    <input type="number" id="peso" value="1100" min="400" max="4000">
+                </div>
+
+                <div class="hud-input-group">
+                    <label for="velocidad">VELOCIDAD OBJETIVO (KM/H)</label>
+                    <input type="number" id="velocidad" value="120" min="10" max="400">
+                </div>
+
+                <button type="button" class="hud-btn" onclick="iniciarSimulacion()">
+                    INICIALIZAR NÚCLEO
+                </button>
+            </form>
+
+            <div class="hud-results">
+                <div class="result-card">
+                    <span class="res-label">RELACIÓN PESO / POTENCIA</span>
+                    <span id="resPesoPotencia" class="res-value">0.00 <small>kg/HP</small></span>
+                </div>
+                <div class="result-card">
+                    <span class="res-label">DISTANCIA DE FRENADO ESTÁTICO</span>
+                    <span id="resFrenado" class="res-value">0.0 <small>m</small></span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
