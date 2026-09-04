@@ -5,66 +5,61 @@ let rpm = 0;
 let targetRpm = 0;
 let angle = 0;
 
-// Dimensiones mecánicas fijas
+// Dimensiones mecánicas del motor
 const crankRadius = 35;
 const rodLength = 120;
 const pistonWidth = 70;
 const pistonHeight = 50;
 
-// Variables dinámicas adaptables al contenedor
+// Centrado dinámico
 let centerX = 150;
 let crankshaftY = 280;
 
-// Configuración de alta definición (Retina/HiDPI) y centrado dinámico
 function ajustarResolucionCanvas() {
     const dpr = window.devicePixelRatio || 1;
     
-    // Obtener el ancho real que ofrece el contenedor padre
     const wrapper = canvas.parentElement;
-    const paddingHorizontal = 32; // Descuenta el padding del wrapper
+    const paddingHorizontal = 32;
     const anchoVisual = Math.max(wrapper.clientWidth - paddingHorizontal, 200);
-    const altoVisual = 380; // Altura fija para mantener proporciones
+    const altoVisual = 380;
 
-    // Establece el número real de píxeles internos en HD
     canvas.width = anchoVisual * dpr;
     canvas.height = altoVisual * dpr;
 
-    // Escala el contexto gráfico según la densidad del dispositivo
     ctx.resetTransform();
     ctx.scale(dpr, dpr);
 
-    // Fija la dimensión visual explícita en el CSS del elemento
     canvas.style.width = `${anchoVisual}px`;
     canvas.style.height = `${altoVisual}px`;
 
-    // RECALCULO DEL CENTRO EXACTO PARA MÓVILES Y COMPUTADORAS
     centerX = anchoVisual / 2;
     crankshaftY = 280;
 }
 
-// Escuchar eventos de carga y redimensionado
 window.addEventListener('load', ajustarResolucionCanvas);
 window.addEventListener('resize', ajustarResolucionCanvas);
 
 function animate() {
-    // Limpieza de pantalla usando el ancho visual real
     const anchoVisual = canvas.width / (window.devicePixelRatio || 1);
     const altoVisual = canvas.height / (window.devicePixelRatio || 1);
     ctx.clearRect(0, 0, anchoVisual, altoVisual);
 
-    // Suavizado de aceleración de RPM
-    rpm += (targetRpm - rpm) * 0.1;
+    // Suavizado dinámico de aceleración y desaceleración
+    rpm += (targetRpm - rpm) * 0.05;
 
-    if (rpm > 10) {
+    if (rpm > 1) {
         const speed = (rpm / 60) * (Math.PI * 2) / 60;
         angle += speed;
     }
 
-    const crankX = centerX + Math.cos(angle) * crankRadius;
-    const crankY = crankshaftY + Math.sin(angle) * crankRadius;
-    const pistonY = crankY - Math.sqrt(Math.pow(rodLength, 2) - Math.pow(crankX - centerX, 2));
+    // Cinemática de pistón y biela libre de errores NaN
+    const crankX = centerX + Math.sin(angle) * crankRadius;
+    const crankY = crankshaftY - Math.cos(angle) * crankRadius;
+    
+    const deltaX = crankX - centerX;
+    const pistonY = crankY - Math.sqrt(Math.max(0, Math.pow(rodLength, 2) - Math.pow(deltaX, 2)));
 
-    // 1. Cilindro (Guías)
+    // 1. Cilindro
     ctx.strokeStyle = '#222222';
     ctx.lineWidth = 1;
     ctx.strokeRect(centerX - pistonWidth/2 - 5, 40, pistonWidth + 10, 180);
@@ -76,13 +71,12 @@ function animate() {
     ctx.fillRect(centerX - pistonWidth/2, pistonY - pistonHeight, pistonWidth, pistonHeight);
     ctx.strokeRect(centerX - pistonWidth/2, pistonY - pistonHeight, pistonWidth, pistonHeight);
 
-    // Detalle central del pistón
     ctx.fillStyle = '#888888';
     ctx.fillRect(centerX - 10, pistonY - pistonHeight + 20, 20, 2);
 
     // 3. Biela
     ctx.beginPath();
-    ctx.moveTo(centerX, pistonY - 10);
+    ctx.moveTo(centerX, pistonY);
     ctx.lineTo(crankX, crankY);
     ctx.strokeStyle = '#888888';
     ctx.lineWidth = 2;
@@ -100,31 +94,79 @@ function animate() {
     ctx.fillStyle = '#ffffff';
     ctx.fill();
 
+    // Mostrar RPMs sin límite visual
+    document.getElementById('rpmDisplay').innerHTML = `${Math.round(rpm).toLocaleString()} <small style="color:#888">RPM</small>`;
+
     requestAnimationFrame(animate);
 }
 
-// Inicialización de la simulación
 ajustarResolucionCanvas();
 animate();
 
+// LÓGICA DE SIMULACIÓN SIN LÍMITES DE UNIDADES
 function iniciarSimulacion() {
-    const potencia = parseFloat(document.getElementById('potencia').value);
-    const peso = parseFloat(document.getElementById('peso').value);
-    const velocidad = parseFloat(document.getElementById('velocidad').value);
+    let potencia = parseFloat(document.getElementById('potencia').value) || 0;
+    let masaInput = parseFloat(document.getElementById('peso').value) || 0;
+    let velocidad = parseFloat(document.getElementById('velocidad').value) || 0;
 
-    if (!potencia || !peso || !velocidad) return;
+    // Si los valores son cero o negativos, se apaga la animación
+    if (potencia <= 0 || masaInput <= 0 || velocidad <= 0) {
+        targetRpm = 0;
+        document.getElementById('resPesoPotencia').innerHTML = `0.00 <small style="color:#888">kg/HP</small>`;
+        document.getElementById('resFrenado').innerHTML = `0.0 <small style="color:#888">m</small>`;
+        
+        const statusDisplay = document.getElementById('statusDisplay');
+        statusDisplay.innerText = "STANDBY";
+        statusDisplay.style.color = "#888888";
+        return;
+    }
 
-    const relacion = (peso / potencia).toFixed(2);
+    // DETECCIÓN Y CONVERSIÓN DE UNIDADES (Toneladas vs Kilogramos)
+    // Si el valor ingresado es menor o igual a 100, se asume Toneladas y se convierte a KG
+    let masaKg = masaInput <= 100 ? masaInput * 1000 : masaInput;
+    let unidadTexto = masaInput <= 100 ? "T/HP" : "kg/HP";
+
+    // Cálculos físicos
+    const relacion = (masaKg / potencia).toFixed(2);
     const velocidadMs = velocidad / 3.6;
     const frenado = (Math.pow(velocidadMs, 2) / (2 * 0.7 * 9.81)).toFixed(1);
 
-    targetRpm = Math.min(potencia * 12, 8500);
+    // Ajuste dinámico de RPM sin topes rígidos
+    targetRpm = potencia * 12;
 
-    document.getElementById('resPesoPotencia').innerHTML = `${relacion} <small style="color:#888">kg/HP</small>`;
-    document.getElementById('resFrenado').innerHTML = `${frenado} <small style="color:#888">m</small>`;
-    document.getElementById('rpmDisplay').innerHTML = `${Math.round(targetRpm)} <small style="color:#888">RPM</small>`;
+    // Formateo de resultados para la interfaz
+    document.getElementById('resPesoPotencia').innerHTML = `${relacion} <small style="color:#888">${unidadTexto}</small>`;
+    document.getElementById('resFrenado').innerHTML = `${Number(frenado).toLocaleString()} <small style="color:#888">m</small>`;
+
+    // Indicador de estado dinámico escalable
+    const statusDisplay = document.getElementById('statusDisplay');
+    if (targetRpm > 10000) {
+        statusDisplay.innerText = "HYPERDRIVE";
+        statusDisplay.style.color = "#ff0055";
+    } else if (targetRpm > 7000) {
+        statusDisplay.innerText = "OVERLOAD";
+        statusDisplay.style.color = "#ff4444";
+    } else if (targetRpm > 4000) {
+        statusDisplay.innerText = "HIGH POWER";
+        statusDisplay.style.color = "#ffbb00";
+    } else {
+        statusDisplay.innerText = "OPTIMAL";
+        statusDisplay.style.color = "#ffffff";
+    }
+}
+
+// RESETEO COMPLETO
+function resetearSimulacion() {
+    targetRpm = 0;
+    
+    document.getElementById('potencia').value = '';
+    document.getElementById('peso').value = '';
+    document.getElementById('velocidad').value = '';
+
+    document.getElementById('resPesoPotencia').innerHTML = `0.00 <small style="color:#888">kg/HP</small>`;
+    document.getElementById('resFrenado').innerHTML = `0.0 <small style="color:#888">m</small>`;
 
     const statusDisplay = document.getElementById('statusDisplay');
-    statusDisplay.innerText = "RUNNING";
-    statusDisplay.style.color = "#ffffff";
+    statusDisplay.innerText = "STANDBY";
+    statusDisplay.style.color = "#888888";
 }

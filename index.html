@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>APEX</title>
     
     <!-- FAVICON SVG MINIMALISTA -->
@@ -39,12 +39,12 @@
                 <h2>[01] SIMULADOR DE COMBUSTIÓN</h2>
             </div>
             <div class="canvas-wrapper">
-                <canvas id="engineCanvas" width="300" height="380"></canvas>
+                <canvas id="engineCanvas"></canvas>
             </div>
             <div class="hud-metrics">
                 <div class="metric">
                     <span class="label">VELOCIDAD ANGULAR</span>
-                    <span id="rpmDisplay" class="value">0000 <small>RPM</small></span>
+                    <span id="rpmDisplay" class="value">0 <small>RPM</small></span>
                 </div>
                 <div class="metric">
                     <span class="label">ESTADO DE IGNICIÓN</span>
@@ -77,6 +77,9 @@
 
                 <button type="button" class="hud-btn" onclick="iniciarSimulacion()">
                     INICIALIZAR NÚCLEO
+                </button>
+                <button type="button" class="hud-btn hud-btn-reset" onclick="resetearSimulacion()">
+                    RESET SYSTEM
                 </button>
             </form>
 
