@@ -105,15 +105,13 @@ body {
     padding: 1rem;
     margin-bottom: 1.5rem;
     width: 100%;
-    overflow: hidden;
+    box-sizing: border-box;
 }
 
-/* Renderizado nítido de bordes para trazos tipo vector */
 .canvas-wrapper canvas {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    max-width: 100%;
     display: block;
+    margin: 0 auto; /* Centrado forzado */
+    max-width: 100%;
 }
 
 /* Métricas Minimalistas */

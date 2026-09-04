@@ -15,35 +15,42 @@ const pistonHeight = 50;
 let centerX = 150;
 let crankshaftY = 280;
 
-// Configuración de alta definición (Retina/HiDPI)
+// Configuración de alta definición (Retina/HiDPI) y centrado dinámico
 function ajustarResolucionCanvas() {
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
+    
+    // Obtener el ancho real que ofrece el contenedor padre
+    const wrapper = canvas.parentElement;
+    const paddingHorizontal = 32; // Descuenta el padding del wrapper
+    const anchoVisual = Math.max(wrapper.clientWidth - paddingHorizontal, 200);
+    const altoVisual = 380; // Altura fija para mantener proporciones
 
-    // Establece el número real de píxeles internos (HD)
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    // Establece el número real de píxeles internos en HD
+    canvas.width = anchoVisual * dpr;
+    canvas.height = altoVisual * dpr;
 
-    // Escala todo el contexto gráfico según la densidad del teléfono
+    // Escala el contexto gráfico según la densidad del dispositivo
     ctx.resetTransform();
     ctx.scale(dpr, dpr);
 
-    // Fija la dimensión visual en pantalla
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
+    // Fija la dimensión visual explícita en el CSS del elemento
+    canvas.style.width = `${anchoVisual}px`;
+    canvas.style.height = `${altoVisual}px`;
 
-    // Recalcula el centro horizontal en vivo
-    centerX = rect.width / 2;
+    // RECALCULO DEL CENTRO EXACTO PARA MÓVILES Y COMPUTADORAS
+    centerX = anchoVisual / 2;
     crankshaftY = 280;
 }
 
-// Escuchar eventos de redimensionado
+// Escuchar eventos de carga y redimensionado
 window.addEventListener('load', ajustarResolucionCanvas);
 window.addEventListener('resize', ajustarResolucionCanvas);
 
 function animate() {
-    const rect = canvas.getBoundingClientRect();
-    ctx.clearRect(0, 0, rect.width, rect.height);
+    // Limpieza de pantalla usando el ancho visual real
+    const anchoVisual = canvas.width / (window.devicePixelRatio || 1);
+    const altoVisual = canvas.height / (window.devicePixelRatio || 1);
+    ctx.clearRect(0, 0, anchoVisual, altoVisual);
 
     // Suavizado de aceleración de RPM
     rpm += (targetRpm - rpm) * 0.1;
