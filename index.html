@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Apuntes de Física - Motor & Dinámica</title>
     
-    <!-- FUENTES MANUSCRITAS -->
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FUENTES MANUSCRITAS ESTILO ESTUDIANTE -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Gloria+Hallelujah&family=Indie+Flower&display=swap" rel="stylesheet">
     
     <!-- ESTILOS -->
     <link rel="stylesheet" href="styles.css">
@@ -16,7 +16,7 @@
     <!-- HOJA DE CUADERNO LIBRE -->
     <div class="notebook-sheet">
         
-        <!-- ENCABEZADO -->
+        <!-- ENCABEZADO ESCRITO A MANO -->
         <div class="handwritten-header">
             <h1 class="main-title">Apuntes: Dinámica de Combustión & Fuerzas</h1>
             <div class="meta-notes">
@@ -26,12 +26,12 @@
             </div>
         </div>
 
-        <!-- CONTENIDO PRINCIPAL -->
+        <!-- CONTENIDO DISTRIBUIDO LIBREMENTE TIPO BORRADOR -->
         <main class="scribble-layout">
             
             <!-- ENTRADAS DEL PROBLEMA -->
             <section class="scribble-group">
-                <h3>Datos del Motor:</h3>
+                <h3>Datos del Problema:</h3>
                 <form id="engineControls" onsubmit="event.preventDefault();">
                     <div class="hand-input-line">
                         <label for="potencia">Potencia (P):</label>
@@ -43,23 +43,24 @@
                     </div>
                     <div class="hand-input-line">
                         <label for="velocidad">Velocidad objetivo (v):</label>
-                        <input type="number" id="velocidad" value="120" min="10" max="300" oninput="gestionarSimulacion()"> km/h
+                        <input type="number" id="velocidad" value="120" min="10" max="400" oninput="gestionarSimulacion()"> km/h
                     </div>
                 </form>
 
-                <!-- BOTÓN DE INICIO / PAUSA -->
+                <!-- BOTÓN ÚNICO DINÁMICO DE ACCIÓN -->
                 <button type="button" id="actionBtn" class="hand-btn" onclick="toggleSimulacion()">
                     [ Pausar ]
                 </button>
             </section>
 
-            <!-- ZONA CENTRAL: ANIMACIÓN Y ESQUEMAS -->
+            <!-- ZONA CENTRAL: ANIMACIÓN Y ESQUEMAS DE FÍSICA -->
             <section class="scribble-center">
                 <div class="canvas-free-wrapper">
                     <canvas id="engineCanvas"></canvas>
                 </div>
-                <div class="sketch-caption">Esquema biela-manivela real + fuerzas dinámicas</div>
+                <div class="sketch-caption">Esquema biela-manivela + vectores de fuerza (F_tracción vs F_aero)</div>
                 
+                <!-- DIBUJITO / GARABATO DE FÍSICA -->
                 <div class="physics-doodle-box">
                     <svg class="doodle-svg" viewBox="0 0 200 60">
                         <path d="M10,40 L40,40 L50,25 L80,25 L90,40 L130,40 L130,50 L10,50 Z" fill="none" stroke="#1b263b" stroke-width="2"/>
@@ -73,26 +74,26 @@
                 </div>
             </section>
 
-            <!-- CÁLCULOS FÍSICOS REALES -->
+            <!-- CÁLCULOS Y FÓRMULAS -->
             <section class="scribble-group">
-                <h3>Cálculos Auxiliares:</h3>
+                <h3>Desarrollo & Fórmulas:</h3>
                 
                 <div class="calc-note">
                     <span class="calc-title">Relación Peso / Potencia:</span>
                     <div class="calc-val-hand" id="resPesoPotencia">0.00 kg/HP</div>
-                    <div class="calc-formula">R = m / P (Límite físico real &gt; 2 kg/HP)</div>
+                    <div class="calc-formula">Nota: R = m / P (Ideal &lt; 5 kg/HP)</div>
                 </div>
 
                 <div class="calc-note">
                     <span class="calc-title">Distancia de Frenado:</span>
                     <div class="calc-val-hand" id="resFrenado">0.0 m</div>
-                    <div class="calc-formula">d = v² / (2 · μ · g) (Asfalto seco: μ ≈ 0.8)</div>
+                    <div class="calc-formula">Usar: d = v² / (2 · μ · g) (μ ≈ 0.8)</div>
                 </div>
 
                 <div class="calc-note">
                     <span class="calc-title">Resistencia Aerodinámica:</span>
                     <div class="calc-val-hand" id="resAero">0.0 N</div>
-                    <div class="calc-formula">F_d = 0.5 · ρ · C_x · A · v² (ρ = 1.225 kg/m³)</div>
+                    <div class="calc-formula">Fórmula: F_d = ½ · ρ · C_x · A · v²</div>
                 </div>
             </section>
 
