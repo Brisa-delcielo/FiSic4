@@ -98,7 +98,6 @@ body {
     outline: none;
 }
 
-/* Botón único de acción */
 .hand-btn {
     display: block;
     width: 100%;
@@ -125,7 +124,6 @@ body {
     text-align: center;
 }
 
-/* Canvas completamente transparente */
 .canvas-free-wrapper {
     background: transparent;
     border: none;
@@ -156,7 +154,6 @@ body {
     transform: rotate(-2deg);
 }
 
-/* Cálculos auxiliares limpios y transparentes */
 .calc-note {
     background: transparent;
     border: none;
@@ -171,8 +168,9 @@ body {
 }
 
 .calc-val-hand {
-    font-size: 1.4rem;
+    font-size: 1.4รายงาน;
     color: var(--ink-blue);
+    font-size: 1.4rem;
 }
 
 .calc-formula {
