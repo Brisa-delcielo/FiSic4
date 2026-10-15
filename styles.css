@@ -5,8 +5,7 @@
     --ink-color: #1b263b;
     --ink-red: #b33939;
     --ink-blue: #2980b9;
-    --font-hand: 'Caveat', cursive;
-    --font-alt: 'Gloria Hallelujah', cursive;
+    --font-hand: 'Architects Daughter', cursive;
 }
 
 * {
@@ -19,7 +18,7 @@ body {
     background-color: #eef2f7;
     color: var(--ink-color);
     font-family: var(--font-hand);
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     padding: 1.5rem 0.5rem;
     display: flex;
     justify-content: center;
@@ -49,7 +48,6 @@ body {
 }
 
 .main-title {
-    font-family: var(--font-alt);
     font-size: 1.8rem;
     color: var(--ink-color);
     transform: rotate(-0.5deg);
@@ -61,27 +59,15 @@ body {
     margin-top: 0.3rem;
 }
 
-.doodle-top-left {
-    position: absolute;
-    top: 15px;
-    right: 40px;
-    font-size: 1rem;
-    color: var(--ink-red);
-    transform: rotate(4deg);
-    border: 1px dashed var(--ink-red);
-    padding: 2px 6px;
-    background: rgba(255,0,0,0.02);
-}
-
 .scribble-layout {
     display: grid;
     grid-template-columns: 1.1fr 1fr 1.1fr;
     gap: 2rem;
     align-items: start;
+    margin-top: 1rem;
 }
 
 .scribble-group h3 {
-    font-family: var(--font-alt);
     font-size: 1.3rem;
     color: var(--ink-blue);
     margin-bottom: 0.8rem;
@@ -105,22 +91,22 @@ body {
     border: none;
     border-bottom: 2px dashed var(--ink-color);
     font-family: var(--font-hand);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: var(--ink-blue);
     width: 90px;
     text-align: center;
     outline: none;
 }
 
-/* Estilo del botón único manuscrito */
+/* Botón único de acción */
 .hand-btn {
     display: block;
     width: 100%;
-    background: rgba(41, 128, 185, 0.1);
+    background: transparent;
     border: 2px dashed var(--ink-blue);
     color: var(--ink-blue);
-    font-family: var(--font-alt);
-    font-size: 1rem;
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
     padding: 0.4rem;
     cursor: pointer;
     margin-top: 1rem;
@@ -129,16 +115,7 @@ body {
 }
 
 .hand-btn:hover {
-    background: var(--ink-blue);
-    color: #fff;
-}
-
-.arrow-doodle {
-    font-size: 1.1rem;
-    color: #7f8c8d;
-    font-style: italic;
-    margin-top: 0.5rem;
-    transform: rotate(2deg);
+    background: rgba(41, 128, 185, 0.1);
 }
 
 .scribble-center {
@@ -148,14 +125,12 @@ body {
     text-align: center;
 }
 
+/* Canvas completamente transparente */
 .canvas-free-wrapper {
-    background: rgba(255,255,255,0.85);
-    border: 2px solid var(--ink-color);
-    border-radius: 25px 10px 25px 15px;
-    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    padding: 0;
     margin-bottom: 0.5rem;
-    box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
-    transform: rotate(1deg);
 }
 
 .canvas-free-wrapper canvas {
@@ -181,12 +156,12 @@ body {
     transform: rotate(-2deg);
 }
 
+/* Cálculos auxiliares limpios y transparentes */
 .calc-note {
-    background: rgba(241, 196, 15, 0.1);
-    border-left: 3px solid #f1c40f;
-    padding: 0.5rem 0.8rem;
-    margin-bottom: 1rem;
-    transform: rotate(0.5deg);
+    background: transparent;
+    border: none;
+    padding: 0.2rem 0;
+    margin-bottom: 1.2rem;
 }
 
 .calc-title {
@@ -196,7 +171,6 @@ body {
 }
 
 .calc-val-hand {
-    font-family: var(--font-alt);
     font-size: 1.4rem;
     color: var(--ink-blue);
 }
@@ -204,15 +178,7 @@ body {
 .calc-formula {
     font-size: 0.95rem;
     color: #555;
-    margin-top: 0.2rem;
-}
-
-.footer-note {
-    margin-top: 2rem;
-    font-size: 1rem;
-    color: var(--ink-red);
-    text-align: right;
-    transform: rotate(-1deg);
+    margin-top: 0.1rem;
 }
 
 @media (max-width: 900px) {
