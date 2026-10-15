@@ -21,7 +21,7 @@
             <h1 class="main-title">Apuntes: Dinámica de Combustión & Fuerzas</h1>
             <div class="meta-notes">
                 <span>Clase de Fis-II (Repaso)</span> | 
-                <span>Estado: <strong id="statusDisplay">ESPERANDO CÁLCULOS...</strong></span> | 
+                <span>Estado: <strong id="statusDisplay">EN MARCHA</strong></span> | 
                 <span>RPM: <strong id="rpmDisplay">800</strong></span>
             </div>
         </div>
@@ -31,23 +31,23 @@
             
             <!-- ENTRADAS DEL PROBLEMA -->
             <section class="scribble-group">
-                <h3>Datos del Problema:</h3>
+                <h3>Datos del Motor:</h3>
                 <form id="engineControls" onsubmit="event.preventDefault();">
                     <div class="hand-input-line">
                         <label for="potencia">Potencia (P):</label>
-                        <input type="number" id="potencia" value="350" min="50" max="1500" oninput="gestionarSimulacion(true)"> HP
+                        <input type="number" id="potencia" value="350" min="50" max="1500" oninput="gestionarSimulacion()"> HP
                     </div>
                     <div class="hand-input-line">
                         <label for="peso">Masa del auto (m):</label>
-                        <input type="number" id="peso" value="1100" min="400" max="4000" oninput="gestionarSimulacion(true)"> kg
+                        <input type="number" id="peso" value="1100" min="400" max="4000" oninput="gestionarSimulacion()"> kg
                     </div>
                     <div class="hand-input-line">
                         <label for="velocidad">Velocidad objetivo (v):</label>
-                        <input type="number" id="velocidad" value="120" min="10" max="400" oninput="gestionarSimulacion(true)"> km/h
+                        <input type="number" id="velocidad" value="120" min="10" max="300" oninput="gestionarSimulacion()"> km/h
                     </div>
                 </form>
 
-                <!-- BOTÓN ÚNICO DINÁMICO (INICIO / PAUSA) -->
+                <!-- BOTÓN DE INICIO / PAUSA -->
                 <button type="button" id="actionBtn" class="hand-btn" onclick="toggleSimulacion()">
                     [ Pausar ]
                 </button>
@@ -58,7 +58,7 @@
                 <div class="canvas-free-wrapper">
                     <canvas id="engineCanvas"></canvas>
                 </div>
-                <div class="sketch-caption">Esquema biela-manivela + vectores de fuerza (F_tracción vs F_aero)</div>
+                <div class="sketch-caption">Esquema biela-manivela real + fuerzas dinámicas</div>
                 
                 <div class="physics-doodle-box">
                     <svg class="doodle-svg" viewBox="0 0 200 60">
@@ -73,26 +73,26 @@
                 </div>
             </section>
 
-            <!-- CÁLCULOS AUXILIARES -->
+            <!-- CÁLCULOS FÍSICOS REALES -->
             <section class="scribble-group">
                 <h3>Cálculos Auxiliares:</h3>
                 
                 <div class="calc-note">
                     <span class="calc-title">Relación Peso / Potencia:</span>
                     <div class="calc-val-hand" id="resPesoPotencia">0.00 kg/HP</div>
-                    <div class="calc-formula">R = m / P (Ideal &lt; 5 kg/HP)</div>
+                    <div class="calc-formula">R = m / P (Límite físico real &gt; 2 kg/HP)</div>
                 </div>
 
                 <div class="calc-note">
                     <span class="calc-title">Distancia de Frenado:</span>
                     <div class="calc-val-hand" id="resFrenado">0.0 m</div>
-                    <div class="calc-formula">d = v² / (2 · μ · g) (μ ≈ 0.8)</div>
+                    <div class="calc-formula">d = v² / (2 · μ · g) (Asfalto seco: μ ≈ 0.8)</div>
                 </div>
 
                 <div class="calc-note">
                     <span class="calc-title">Resistencia Aerodinámica:</span>
                     <div class="calc-val-hand" id="resAero">0.0 N</div>
-                    <div class="calc-formula">F_d = 0.5 · ρ · C_x · A · v²</div>
+                    <div class="calc-formula">F_d = 0.5 · ρ · C_x · A · v² (ρ = 1.225 kg/m³)</div>
                 </div>
             </section>
 
