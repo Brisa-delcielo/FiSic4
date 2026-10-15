@@ -3,109 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>APEX - Cuaderno de Ingeniería</title>
+    <title>Apuntes de Física - Motor & Dinámica</title>
     
-    <!-- FAVICON -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23222222' stroke-width='1.5'><rect x='7' y='3' width='10' height='7' rx='1'/><line x1='12' y1='10' x2='12' y2='17'/><circle cx='12' cy='18.5' r='1.5' fill='%23222222'/></svg>">
-
-    <!-- FUENTES TIPO MANUSCRITO / TÉCNICO -->
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <!-- FUENTES MANUSCRITAS ESTILO ESTUDIANTE -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Gloria+Hallelujah&family=Indie+Flower&display=swap" rel="stylesheet">
     
     <!-- ESTILOS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <header class="paper-header">
-        <div class="notebook-title">
-            <h1>CUADERNO DE CÁLCULO DE COMBUSTIÓN & FÍSICA VEHICULAR</h1>
-            <span class="sub-title">LABORATORIO DE DINÁMICA - EXP: #042</span>
-        </div>
-        <div class="system-status">
-            ESTADO: <span id="statusDisplay">STANDBY</span> | <span id="rpmDisplay">800 RPM</span>
-        </div>
-    </header>
-
-    <main class="notebook-container">
+    <!-- HOJA DE CUADERNO LIBRE -->
+    <div class="notebook-sheet">
         
-        <!-- PANEL DE ENTRADAS (PARTE SUPERIOR / IZQUIERDA) -->
-        <section class="paper-panel input-section">
-            <h2 class="section-title">// 1. VARIABLES DE ENTRADA</h2>
-            <form id="engineControls" onsubmit="event.preventDefault();">
-                <div class="paper-input-group">
-                    <label for="potencia">Potencia del Motor ($P$):</label>
-                    <div class="input-with-unit">
-                        <input type="number" id="potencia" value="350" min="50" max="1500" oninput="iniciarSimulacion()">
-                        <span class="unit">HP</span>
-                    </div>
-                </div>
-
-                <div class="paper-input-group">
-                    <label for="peso">Masa del Vehículo ($m$):</label>
-                    <div class="input-with-unit">
-                        <input type="number" id="peso" value="1100" min="400" max="4000" oninput="iniciarSimulacion()">
-                        <span class="unit">kg</span>
-                    </div>
-                </div>
-
-                <div class="paper-input-group">
-                    <label for="velocidad">Velocidad Objetivo ($v_{obj}$):</label>
-                    <div class="input-with-unit">
-                        <input type="number" id="velocidad" value="120" min="10" max="400" oninput="iniciarSimulacion()">
-                        <span class="unit">km/h</span>
-                    </div>
-                </div>
-            </form>
-        </section>
-
-        <!-- EL MOTOR EN MOVIMIENTO AL CENTRO -->
-        <section class="paper-panel simulation-section">
-            <h2 class="section-title">// 2. CINEMÁTICA DEL MOTOR EN VIVO</h2>
-            <div class="canvas-wrapper-paper">
-                <canvas id="engineCanvas"></canvas>
+        <!-- ENCABEZADO ESCRITO A MANO -->
+        <div class="handwritten-header">
+            <h1 class="main-title">Apuntes: Dinámica de Combustión & Fuerzas 🚗💨</h1>
+            <div class="meta-notes">
+                <span>Clase de Fis-II (Repaso)</span> | 
+                <span>Estado: <strong id="statusDisplay">ESPERANDO CÁLCULOS...</strong></span> | 
+                <span>RPM: <strong id="rpmDisplay">800</strong></span>
             </div>
-            <div class="canvas-caption">Simulación de pistón, biela y cigüeñal acoplados a la inercia real.</div>
-        </section>
+        </div>
 
-        <!-- MEDICIONES Y FÓRMULAS (DERECHA / ABAJO) -->
-        <section class="paper-panel formulas-section">
-            <h2 class="section-title">// 3. MEDICIONES Y DESGLOSE DE FÓRMULAS</h2>
+        <div class="doodle-top-left">⚡ $F = m \cdot a$ (ojo con las unidades!)</div>
+
+        <!-- CONTENIDO DISTRIBUIDO LIBREMENTE TIPO BORRADOR -->
+        <main class="scribble-layout">
             
-            <div class="formula-card">
-                <div class="metric-row">
-                    <span class="res-label">Relación Peso / Potencia:</span>
-                    <span id="resPesoPotencia" class="res-value">0.00 kg/HP</span>
-                </div>
-                <div class="formula-box">
-                    <strong>Fórmula:</strong> $\frac{m}{P}$<br>
-                    <span>Mide la carga que soporta cada caballo de fuerza. A menor número, mayor aceleración potencial.</span>
-                </div>
-            </div>
+            <!-- ENTRADAS DEL PROBLEMA -->
+            <section class="scribble-group">
+                <h3>Datos del Problema:</h3>
+                <form id="engineControls" onsubmit="event.preventDefault();">
+                    <div class="hand-input-line">
+                        <label for="potencia">Potencia ($P$):</label>
+                        <input type="number" id="potencia" value="350" min="50" max="1500" oninput="gestionarSimulacion(true)"> HP
+                    </div>
+                    <div class="hand-input-line">
+                        <label for="peso">Masa del auto ($m$):</label>
+                        <input type="number" id="peso" value="1100" min="400" max="4000" oninput="gestionarSimulacion(true)"> kg
+                    </div>
+                    <div class="hand-input-line">
+                        <label for="velocidad">Velocidad objetivo ($v$):</label>
+                        <input type="number" id="velocidad" value="120" min="10" max="400" oninput="gestionarSimulacion(true)"> km/h
+                    </div>
+                </form>
 
-            <div class="formula-card">
-                <div class="metric-row">
-                    <span class="res-label">Distancia de Frenado Estático:</span>
-                    <span id="resFrenado" class="res-value">0.0 m</span>
-                </div>
-                <div class="formula-box">
-                    <strong>Fórmula:</strong> $d = \frac{v^2}{2 \cdot \mu \cdot g}$<br>
-                    <span>Donde $v$ es velocidad en m/s, $\mu = 0.8$ (fricción asfalto seco) y $g = 9.81\text{ m/s}^2$.</span>
-                </div>
-            </div>
+                <!-- ÚNICO BOTÓN DINÁMICO DE ACCIÓN -->
+                <button type="button" id="actionBtn" class="hand-btn" onclick="toggleSimulacion()">
+                    [ Borrar / Reiniciar ]
+                </button>
+                
+                <div class="arrow-doodle">↘ pasar a m/s ($v / 3.6$)</div>
+            </section>
 
-            <div class="formula-card">
-                <div class="metric-row">
-                    <span class="res-label">Resistencia Aerodinámica ($F_d$):</span>
-                    <span id="resAero" class="res-value">0.0 N</span>
+            <!-- ZONA CENTRAL: ANIMACIÓN Y ESQUEMAS DE FÍSICA -->
+            <section class="scribble-center">
+                <div class="canvas-free-wrapper">
+                    <canvas id="engineCanvas"></canvas>
                 </div>
-                <div class="formula-box">
-                    <strong>Fórmula:</strong> $F_d = \frac{1}{2} \cdot \rho \cdot C_x \cdot A \cdot v^2$<br>
-                    <span>Fuerza de oposición del aire ($\rho = 1.225$, $C_x = 0.32$, $A = 2.2\text{ m}^2$).</span>
+                <div class="sketch-caption">Esquema biela-manivela + vectores de fuerza (F_tracción vs F_aero) 🔄</div>
+                
+                <!-- DIBUJITO / GARABATO DE FÍSICA -->
+                <div class="physics-doodle-box">
+                    <svg class="doodle-svg" viewBox="0 0 200 60">
+                        <path d="M10,40 L40,40 L50,25 L80,25 L90,40 L130,40 L130,50 L10,50 Z" fill="none" stroke="#1b263b" stroke-width="2"/>
+                        <circle cx="30" cy="50" r="8" fill="none" stroke="#1b263b" stroke-width="2"/>
+                        <circle cx="110" cy="50" r="8" fill="none" stroke="#1b263b" stroke-width="2"/>
+                        <line x1="135" y1="35" x2="175" y2="35" stroke="#b33939" stroke-width="2"/>
+                        <text x="140" y="28" font-size="12" fill="#b33939">F_trac</text>
+                        <line x1="25" y1="15" x2="5" y2="15" stroke="#2980b9" stroke-width="2"/>
+                        <text x="10" y="10" font-size="10" fill="#2980b9">F_aero</text>
+                    </svg>
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </main>
+            <!-- CÁLCULOS Y FÓRMULAS -->
+            <section class="scribble-group">
+                <h3>Desarrollo & Fórmulas:</h3>
+                
+                <div class="calc-note">
+                    <span class="calc-title">Relación Peso / Potencia:</span>
+                    <div class="calc-val-hand" id="resPesoPotencia">0.00 kg/HP</div>
+                    <div class="calc-formula">Nota: $R = \frac{m}{P}$ (Ideal < 5 kg/HP)</div>
+                </div>
+
+                <div class="calc-note">
+                    <span class="calc-title">Distancia de Frenado:</span>
+                    <div class="calc-val-hand" id="resFrenado">0.0 m</div>
+                    <div class="calc-formula">Usar: $d = \frac{v^2}{2 \cdot \mu \cdot g}$ ($\mu \approx 0.8$)</div>
+                </div>
+
+                <div class="calc-note">
+                    <span class="calc-title">Resistencia Aerodinámica:</span>
+                    <div class="calc-val-hand" id="resAero">0.0 N</div>
+                    <div class="calc-formula">Fórmula: $F_d = \frac{1}{2} \rho C_x A v^2$</div>
+                </div>
+            </section>
+
+        </main>
+        
+        <div class="footer-note">✨ *¡Entregar antes del viernes! No olvidar calcular las pérdidas térmicas.*</div>
+    </div>
 
     <script src="script.js"></script>
 </body>
