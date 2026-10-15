@@ -11,7 +11,6 @@ let potenciaMotor = 350;
 let masaVehiculoKg = 1100;
 let simulacionActiva = true;
 
-// Dimensiones reales proporcionales del motor
 const crankRadius = 25;
 const rodLength = 90;
 const pistonWidth = 50;
@@ -41,7 +40,7 @@ function ajustarResolucionCanvas() {
 window.addEventListener('load', () => {
     ajustarResolucionCanvas();
     gestionarSimulacion();
-    animate(); // Arranca el bucle por primera vez
+    animate();
 });
 
 window.addEventListener('resize', ajustarResolucionCanvas);
@@ -52,9 +51,9 @@ function animate() {
     ctx.clearRect(0, 0, anchoVisual, altoVisual);
 
     if (simulacionActiva && potenciaMotor > 0 && masaVehiculoKg > 0) {
-        const rho = 1.225; // Densidad del aire (kg/m³)
-        const cx = 0.32;   // Coeficiente aerodinámico
-        const area = 2.2;  // Área frontal (m²)
+        const rho = 1.225;
+        const cx = 0.32;
+        const area = 2.2;
         
         const fuerzaAero = 0.5 * rho * cx * area * Math.pow(velocidadActualMs, 2);
         const potenciaWatts = potenciaMotor * 745.7; 
@@ -76,23 +75,15 @@ function animate() {
 
         let rpmCalculadas = 800 + (velocidadActualMs / (250 / 3.6)) * 6200;
         targetRpm = Math.min(Math.max(rpmCalculadas, 800), 7500);
-    } else {
-        // Ralentí con inercia descendente al pausar
-        targetRpm = 800;
-        if (velocidadActualMs > 0) {
-            velocidadActualMs = Math.max(0, velocidadActualMs - 4.0 * 0.016);
+
+        rpm += (targetRpm - rpm) * 0.08;
+
+        if (rpm > 1) {
+            const speed = (rpm / 60) * (Math.PI * 2) / 60;
+            angle += speed;
         }
-    }
+    } 
 
-    rpm += (targetRpm - rpm) * 0.08;
-
-    // Giro del cigüeñal estrictamente proporcional a las RPM reales
-    if (rpm > 1) {
-        const speed = (rpm / 60) * (Math.PI * 2) / 60;
-        angle += speed;
-    }
-
-    // Cinemática real del sistema biela-manivela
     const crankX = centerX + Math.sin(angle) * crankRadius;
     const crankY = crankshaftY - Math.cos(angle) * crankRadius;
     const deltaX = crankX - centerX;
@@ -124,11 +115,9 @@ function animate() {
     const rpmElem = document.getElementById('rpmDisplay');
     if (rpmElem) rpmElem.innerHTML = `${Math.round(rpm)}`;
 
-    // El bucle de animación sigue corriendo siempre de fondo para permitir reanudar sin trabas
     requestAnimationFrame(animate);
 }
 
-// CÁLCULOS FÍSICOS REALES
 function gestionarSimulacion() {
     let potencia = parseFloat(document.getElementById('potencia').value);
     let masaKg = parseFloat(document.getElementById('peso').value);
@@ -152,7 +141,6 @@ function gestionarSimulacion() {
     document.getElementById('resAero').innerText = `${aero} N`;
 }
 
-// CONTROL DE PAUSA / REANUDAR SEGURO
 function toggleSimulacion() {
     simulacionActiva = !simulacionActiva;
     const btn = document.getElementById('actionBtn');
