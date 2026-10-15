@@ -11,18 +11,19 @@ let potenciaMotor = 350;
 let masaVehiculoKg = 1100;
 let simulacionActiva = true;
 
-const crankRadius = 25;
-const rodLength = 90;
-const pistonWidth = 50;
-const pistonHeight = 35;
+// Ajuste seguro de proporciones para que el pistón se mueva holgadamente dentro del cilindro
+const crankRadius = 22;
+const rodLength = 95;
+const pistonWidth = 46;
+const pistonHeight = 32;
 
 let centerX = 110;
-let crankshaftY = 180;
+let crankshaftY = 175;
 
 function ajustarResolucionCanvas() {
     const dpr = window.devicePixelRatio || 1;
     const anchoVisual = 220;
-    const altoVisual = 220;
+    const altoVisual = 210;
 
     canvas.width = anchoVisual * dpr;
     canvas.height = altoVisual * dpr;
@@ -34,7 +35,7 @@ function ajustarResolucionCanvas() {
     canvas.style.height = `${altoVisual}px`;
 
     centerX = anchoVisual / 2;
-    crankshaftY = 180;
+    crankshaftY = 175;
 }
 
 window.addEventListener('load', () => {
@@ -73,10 +74,11 @@ function animate() {
             if (velocidadActualMs < velocidadObjMs) velocidadActualMs = velocidadObjMs;
         }
 
-        let rpmCalculadas = 800 + (velocidadActualMs / (250 / 3.6)) * 6200;
-        targetRpm = Math.min(Math.max(rpmCalculadas, 800), 7500);
+        // Relación de RPM suave y realista basada en la velocidad alcanzada
+        let rpmCalculadas = 800 + (velocidadActualMs / (180 / 3.6)) * 4500;
+        targetRpm = Math.min(Math.max(rpmCalculadas, 800), 6500);
 
-        rpm += (targetRpm - rpm) * 0.08;
+        rpm += (targetRpm - rpm) * 0.06; // Inercia más suave en el tacómetro
 
         if (rpm > 1) {
             const speed = (rpm / 60) * (Math.PI * 2) / 60;
@@ -84,30 +86,37 @@ function animate() {
         }
     } 
 
+    // Cinemática segura de la biela y manivela dentro del cilindro
     const crankX = centerX + Math.sin(angle) * crankRadius;
     const crankY = crankshaftY - Math.cos(angle) * crankRadius;
     const deltaX = crankX - centerX;
-    const radical = Math.pow(rodLength, 2) - Math.pow(deltaX, 2);
-    const pistonY = crankY - Math.sqrt(Math.max(0, radical));
+    const term = Math.pow(rodLength, 2) - Math.pow(deltaX, 2);
+    const pistonY = crankY - Math.sqrt(Math.max(0, term));
 
     ctx.strokeStyle = '#1b263b';
     ctx.fillStyle = '#1b263b';
 
+    // Dibujo del bloque del cilindro
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(centerX - pistonWidth/2 - 5, 20, pistonWidth + 10, 140);
+    ctx.strokeRect(centerX - pistonWidth/2 - 6, 25, pistonWidth + 12, 130);
+    
+    // Dibujo del pistón
     ctx.fillRect(centerX - pistonWidth/2, pistonY - pistonHeight, pistonWidth, pistonHeight);
 
+    // Dibujo de la biela
     ctx.beginPath();
     ctx.moveTo(centerX, pistonY);
     ctx.lineTo(crankX, crankY);
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.5;
     ctx.stroke();
 
+    // Dibujo del cigüeñal (circunferencia)
     ctx.beginPath();
     ctx.arc(centerX, crankshaftY, crankRadius, 0, Math.PI * 2);
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
+    // Eje de la muñequilla del cigüeñal
     ctx.beginPath();
     ctx.arc(crankX, crankY, 3, 0, Math.PI * 2);
     ctx.fill();
